@@ -1,6 +1,5 @@
 import tkinter
 from tkinter import *
-from random import choice
 from tkinter.colorchooser import *
 
 def change_color():
