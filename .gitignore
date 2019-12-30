@@ -3,3 +3,7 @@ build
 dist
 squarenotes.spec
 .DS_Store
+.eggs/
+setup.py
+Pipfile
+Pipfile.lock
