@@ -1,0 +1,5 @@
+__pycache__
+build
+dist
+squarenotes.spec
+.DS_Store
