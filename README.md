@@ -19,7 +19,9 @@ Command-o: Makes font smaller
 
 Command-b: Toggles bold
 
-Command-i" Toggles italic
+Command-i: Toggles italic
+
+Command-f: Open font selector
 
 Notes can be resized
 
