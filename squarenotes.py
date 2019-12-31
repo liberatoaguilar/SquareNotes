@@ -16,6 +16,8 @@ def main(self,color="#1d1f22"):
     root.bind("<Command w>", root.destroy)
     root.bind("<Command c>", lambda a : entry.configure(bg=change_color()))
     root.bind("<Command C>", lambda a : entry.configure(fg=change_color()))
+    root.bind("<Command p>", lambda a: entry.configure(font=(" ",int(entry.cget("font").split()[2])+1, " ")))
+    root.bind("<Command o>", lambda a: entry.configure(font=(" ",int(entry.cget("font").split()[2])-1, " ")))
     canvas.pack(expand=YES, fill=BOTH)
     entry.pack(expand=YES, fill=BOTH)
     entry.focus_set()
