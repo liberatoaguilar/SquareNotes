@@ -5,6 +5,25 @@ import tkinter.font as fonts
 
 selectedfont = "Helvetica"
 
+def add_bullet(text):
+    bulletfound = "None"
+    length = len(text.split())
+    for x in range(length):
+        if text.split()[x][0] == "•":
+            bulletfound = str(float(x+2))+ " + 1 chars"
+    return bulletfound
+def delete_aster(text):
+    bulletfound = "None"
+    if text.split()[0][0] == "*":
+        bulletfound = "3.0 + 1 chars"
+    return bulletfound
+
+def check_for_aster(text):
+    bulletfound = "None"
+    if text.split()[0][0] == "*":
+        bulletfound = "center"
+    return bulletfound
+
 def select_font(font):
     global selectedfont
     selectedfont = font
@@ -44,7 +63,6 @@ def show_fonts():
     fontcanvas.create_window(100,410,window=fontbutton14)
     fontcanvas.pack()
     fontroot.mainloop()
-    print(selectedfont)
     fontroot.destroy()
     return selectedfont
 
@@ -77,6 +95,9 @@ def main(self,color="#1d1f22"):
     root.bind("<Command b>", lambda a: entry.configure(font=(entry.cget("font").split()[0],int(entry.cget("font").split()[1]), toggle_bold(str(entry.cget("font").split()[2])),entry.cget("font").split()[3])))
     root.bind("<Command i>", lambda a: entry.configure(font=(entry.cget("font").split()[0],int(entry.cget("font").split()[1]), entry.cget("font").split()[2],toggle_italic(entry.cget("font").split()[3]))))
     root.bind("<Command f>", lambda a: entry.configure(font=(show_fonts(),int(entry.cget("font").split()[1]), entry.cget("font").split()[2],entry.cget("font").split()[3])))
+    root.bind("<space>", lambda a: [entry.tag_delete(check_for_aster(entry.get("1.0","end"))),entry.delete("0.0",delete_aster(entry.get("0.0","end"))),entry.replace("0.0","0.0+1char","• ")])
+    root.bind("<Return>", lambda a: [entry.insert(add_bullet(entry.get("1.0","end")),"•  ")])
+
     entry.place(relx=0.5, rely=0.5, anchor=CENTER)
     canvas.pack(expand=YES,fill=BOTH)
     entry.focus_set()
