@@ -17,6 +17,10 @@ Command-p: Makes font bigger
 
 Command-o: Makes font smaller
 
+Command-b: Toggles bold
+
+Command-i" Toggles italic
+
 Notes can be resized
 
 ### Extra Information
