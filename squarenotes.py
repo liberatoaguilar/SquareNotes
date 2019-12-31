@@ -8,7 +8,7 @@ def main(self,color="#1d1f22"):
     root = tkinter.Tk()
     root.wm_title("SquareNotes")
     canvas = tkinter.Canvas(root, bg=color, borderwidth=0, highlightthickness=0,)
-    entry = tkinter.Text(canvas, width=16, height=8, font=(" ",20,"bold"),fg="white",bg=color, highlightthickness=0)
+    entry = tkinter.Text(canvas, width=16, height=8, font=(" ",20," "),fg="white",bg=color, highlightthickness=0)
     entry.tag_configure("center", justify="center")
     entry.insert("1.0","\n\n\n")
     entry.tag_add("center","1.0","end")
