@@ -19,8 +19,11 @@ def delete_aster(text):
 
 def check_for_aster(text):
     bulletfound = "None"
-    if text.split()[0] == "*":
-        bulletfound = "center"
+    try:
+        if text.split()[0] == "*":
+            bulletfound = "center"
+    except:
+        bulletfount = "center"
     return bulletfound
 
 def select_font(font):
@@ -93,7 +96,7 @@ def main(self,color="#1d1f22"):
     entry = tkinter.Text(canvas, width=16, height=8, font=("Helvetica",20,"normal", "roman"),fg="white",bg=color, highlightthickness=0,insertbackground="white",wrap="word")
     entry.tag_configure("center", justify="center")
     entry.insert("1.0","\n\n\n")
-    entry.tag_add("center","1.0","end")
+    entry.tag_add("center","0.0","end")
     root.bind("<Command n>", main)
     root.bind("<Command w>", root.destroy)
     root.bind("<Command c>", lambda a: [entry.configure(bg=change_color()), canvas.configure(bg=entry.cget("bg"))])
