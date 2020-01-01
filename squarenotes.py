@@ -7,8 +7,9 @@ selectedfont = "Helvetica"
 
 def add_bullet(entry):
     for x in range(int(float(entry.index("end")))):
-        if entry.get(float(x),str(float(x))+"+2char") != " •":
-            entry.insert(float(x)," • ")
+        if entry.get("0.0","0.0+3char") == " • ":
+            if entry.get(float(x),str(float(x))+"+2char") != " •":
+                entry.insert(float(x)," • ")
 
 def delete_aster(text):
     bulletfound = "None"
