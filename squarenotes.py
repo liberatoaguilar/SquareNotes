@@ -4,6 +4,7 @@ from tkinter.colorchooser import *
 import tkinter.font as fonts
 
 selectedfont = "Helvetica"
+count = 0
 
 def add_bullet(entry):
     for x in range(int(float(entry.index("end")))):
@@ -23,7 +24,7 @@ def check_for_aster(text):
         if text.split()[0] == "*":
             bulletfound = "center"
     except:
-        bulletfount = "center"
+        bulletfound = "center"
     return bulletfound
 
 def select_font(font):
@@ -86,8 +87,18 @@ def toggle_italic(entry):
     elif entry == "roman":
         return "italic"
 
-def change_color():
+def change_bg_color():
     return askcolor()[1]
+
+def change_color(entry):
+    global count
+    color = askcolor()[1]
+    if entry.tag_ranges('sel'):
+        entry.tag_add('colortag_' + str(count), SEL_FIRST,SEL_LAST)
+        entry.tag_configure('colortag_' + str(count), foreground=color)
+        count += 1
+    else:
+        entry.config(foreground=color)
 
 def main(self,color="#1d1f22"):
     root = tkinter.Tk()
@@ -99,8 +110,8 @@ def main(self,color="#1d1f22"):
     entry.tag_add("center","0.0","end")
     root.bind("<Command n>", main)
     root.bind("<Command w>", root.destroy)
-    root.bind("<Command c>", lambda a: [entry.configure(bg=change_color()), canvas.configure(bg=entry.cget("bg"))])
-    root.bind("<Command C>", lambda a: entry.configure(fg=change_color()))
+    root.bind("<Command c>", lambda a: [entry.configure(bg=change_bg_color()), canvas.configure(bg=entry.cget("bg"))])
+    root.bind("<Command C>", lambda a: change_color(entry))
     root.bind("<Command p>", lambda a: entry.configure(font=(entry.cget("font").split()[0],int(entry.cget("font").split()[1])+1, entry.cget("font").split()[2], entry.cget("font").split()[3])))
     root.bind("<Command o>", lambda a: entry.configure(font=(entry.cget("font").split()[0],int(entry.cget("font").split()[1])-1, entry.cget("font").split()[2], entry.cget("font").split()[3])))
     root.bind("<Command b>", lambda a: entry.configure(font=(entry.cget("font").split()[0],int(entry.cget("font").split()[1]), toggle_bold(str(entry.cget("font").split()[2])),entry.cget("font").split()[3])))
@@ -109,6 +120,7 @@ def main(self,color="#1d1f22"):
     root.bind("<space>", lambda a: [entry.tag_delete(check_for_aster(entry.get("2.0","2.0+3char"))),entry.delete("0.0",delete_aster(entry.get("0.0","end"))),entry.replace("0.0","0.0+1char"," • ")])
     root.bind("<Return>", lambda a: add_bullet(entry))
     root.bind("<Command l>", lambda a: entry.config(state=toggle_lock(str(entry.cget("state")))))
+    #root.bind("<Command t>", lambda a: root.attributes("-alpha","0.6"))
     entry.place(relx=0.5, rely=0.5, anchor=CENTER)
     canvas.pack(expand=YES,fill=BOTH)
     entry.focus_set()
