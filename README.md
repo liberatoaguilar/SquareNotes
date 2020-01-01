@@ -1,6 +1,7 @@
 # SquareNotes
 
 SquareNotes is a simple app that creates small windows that hold notes
+
 Simply begin typing on a note
 
 ## Features and Controls
@@ -22,6 +23,8 @@ Command-b: Toggles bold
 Command-i: Toggles italic
 
 Command-f: Open font selector
+
+Command-l: Toggle lock on note
 
 Use: * yourtext to use bullet points
 

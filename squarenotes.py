@@ -64,18 +64,27 @@ def show_fonts():
     fontroot.destroy()
     return selectedfont
 
+def toggle_lock(entry):
+    if entry == "disabled":
+        return "normal"
+    elif entry == "normal":
+        return "disabled"
+
 def toggle_bold(entry):
     if entry == "bold":
         return "normal"
     elif entry == "normal":
         return "bold"
+
 def toggle_italic(entry):
     if entry == "italic":
         return "roman"
     elif entry == "roman":
         return "italic"
+
 def change_color():
     return askcolor()[1]
+
 def main(self,color="#1d1f22"):
     root = tkinter.Tk()
     root.wm_title("SquareNotes")
@@ -95,6 +104,7 @@ def main(self,color="#1d1f22"):
     root.bind("<Command f>", lambda a: entry.configure(font=(show_fonts(),int(entry.cget("font").split()[1]), entry.cget("font").split()[2],entry.cget("font").split()[3])))
     root.bind("<space>", lambda a: [entry.tag_delete(check_for_aster(entry.get("2.0","2.0+3char"))),entry.delete("0.0",delete_aster(entry.get("0.0","end"))),entry.replace("0.0","0.0+1char"," • ")])
     root.bind("<Return>", lambda a: add_bullet(entry))
+    root.bind("<Command l>", lambda a: entry.config(state=toggle_lock(str(entry.cget("state")))))
     entry.place(relx=0.5, rely=0.5, anchor=CENTER)
     canvas.pack(expand=YES,fill=BOTH)
     entry.focus_set()
