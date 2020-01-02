@@ -26,6 +26,8 @@ Command-f: Open font selector
 
 Command-l: Toggle lock on note
 
+Command-,: Experimental Preferences
+
 Use: * yourtext to use bullet points
 
 Notes can be resized

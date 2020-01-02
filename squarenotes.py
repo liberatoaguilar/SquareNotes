@@ -5,6 +5,7 @@ import tkinter.font as fonts
 
 selectedfont = "Helvetica"
 count = 0
+alpha = 1.0
 
 def add_bullet(entry):
     for x in range(int(float(entry.index("end")))):
@@ -30,6 +31,29 @@ def check_for_aster(text):
 def select_font(font):
     global selectedfont
     selectedfont = font
+
+def set_alpha(num,root):
+    global alpha
+    alpha = num
+    root.attributes("-alpha",str(num))
+
+def show_prefs(entry,root):
+    global alpha
+    prefsroot = tkinter.Tk()
+    prefsroot.wm_title("Preferences")
+    prefscanvas = tkinter.Canvas(prefsroot, highlightthickness=0,bg="#1d1f22",height=300,width=440)
+    title = tkinter.Entry(prefscanvas,bd=0,bg="#cecece",highlightbackground="#cecece",highlightcolor="#cecece")
+    titlelabel = tkinter.Label(prefscanvas,text="Set Title",bg="#1d1f22",fg="white")
+    title.insert("end","SquareNotes")
+    titlebutton = tkinter.Button(prefscanvas,width=10,text="Set",bg="#1d1f22",fg="white",bd=0,highlightthickness=0,activebackground="#1d1f22",highlightbackground="#1d1f22",font=("Helvetica"),command=lambda : root.wm_title(title.get()))
+    translucent_number = Scale(prefscanvas, from_=0.1, to=1.0, orient=HORIZONTAL, resolution=0.1, length=170, label="Translucency",bd=0,bg="#1d1f22",activebackground="#1d1f22",fg="white",command= lambda a: set_alpha(a,root))
+    translucent_number.set(alpha)
+    prefscanvas.create_window(120,40,window=translucent_number)
+    prefscanvas.create_window(70,120,window=titlelabel)
+    prefscanvas.create_window(120,155,window=title)
+    prefscanvas.create_window(120,195,window=titlebutton)
+    prefscanvas.pack()
+    prefsroot.mainloop()
 
 def show_fonts():
     fontroot = tkinter.Tk()
@@ -120,6 +144,7 @@ def main(self,color="#1d1f22"):
     root.bind("<space>", lambda a: [entry.tag_delete(check_for_aster(entry.get("2.0","2.0+3char"))),entry.delete("0.0",delete_aster(entry.get("0.0","end"))),entry.replace("0.0","0.0+1char"," • ")])
     root.bind("<Return>", lambda a: add_bullet(entry))
     root.bind("<Command l>", lambda a: entry.config(state=toggle_lock(str(entry.cget("state")))))
+    root.bind("<Command ,>", lambda a: show_prefs(entry,root))
     #root.bind("<Command t>", lambda a: root.attributes("-alpha","0.6"))
     entry.place(relx=0.5, rely=0.5, anchor=CENTER)
     canvas.pack(expand=YES,fill=BOTH)
