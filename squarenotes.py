@@ -6,23 +6,49 @@ import tkinter.font as fonts
 selectedfont = "Helvetica"
 count = 0
 alpha = 1.0
+bulletoraster = " • "
+
+def aster_or_num(text):
+    print(text)
+    if text[0][0] == "1" and text[0][1] == ".":
+        return "1. "
+    elif text[0][0] == " " and text [0][1] == "•":
+        return " •"
+
+def isint(text):
+    try:
+        test = int(text.replace(".","").replace(" ",""))
+        return True
+    except:
+        return False
 
 def add_bullet(entry):
     for x in range(int(float(entry.index("end")))):
         if entry.get("0.0","0.0+3char") == " • ":
             if entry.get(float(x),str(float(x))+"+2char") != " •":
                 entry.insert(float(x)," • ")
+    for x in range(int(float(entry.index("end")))-1):
+        if entry.get("0.0","0.0+3char") == "1. ":
+            if entry.get(float(x+1),str(float(x+1))+"+2char") != str(int(x+1))+".":
+                entry.insert(float(x+1),str(int(x+1))+". ")
+                if isint(entry.get(str(float(x+1))+"+3chars",str(float(x+1))+" lineend")):
+                    entry.delete(str(float(x+1))+"+3chars",str(float(x+1))+" lineend")
 
 def delete_aster(text):
+    global bulletoraster
     bulletfound = "None"
     if text.split()[0][0] == "*":
         bulletfound = "4.0 + 1 chars"
+        bulletoraster = " • "
+    if text.split()[0][0] == "1" and text.split()[0][1] == ".":
+        bulletfound = "4.0 + 1 chars"
+        bulletoraster = "1. "
     return bulletfound
 
 def check_for_aster(text):
     bulletfound = "None"
     try:
-        if text.split()[0] == "*":
+        if text.split()[0] == "*" or text.split()[0] == "1" and text.split()[1] == ".":
             bulletfound = "center"
     except:
         bulletfound = "center"
@@ -141,11 +167,10 @@ def main(self,color="#1d1f22"):
     root.bind("<Command b>", lambda a: entry.configure(font=(entry.cget("font").split()[0],int(entry.cget("font").split()[1]), toggle_bold(str(entry.cget("font").split()[2])),entry.cget("font").split()[3])))
     root.bind("<Command i>", lambda a: entry.configure(font=(entry.cget("font").split()[0],int(entry.cget("font").split()[1]), entry.cget("font").split()[2],toggle_italic(entry.cget("font").split()[3]))))
     root.bind("<Command f>", lambda a: entry.configure(font=(show_fonts(),int(entry.cget("font").split()[1]), entry.cget("font").split()[2],entry.cget("font").split()[3])))
-    root.bind("<space>", lambda a: [entry.tag_delete(check_for_aster(entry.get("2.0","2.0+3char"))),entry.delete("0.0",delete_aster(entry.get("0.0","end"))),entry.replace("0.0","0.0+1char"," • ")])
+    root.bind("<space>", lambda a: [entry.tag_delete(check_for_aster(entry.get("2.0","2.0+3char"))),entry.delete("0.0",delete_aster(entry.get("0.0","end"))),entry.replace("0.0","0.0+1char",bulletoraster)])
     root.bind("<Return>", lambda a: add_bullet(entry))
     root.bind("<Command l>", lambda a: entry.config(state=toggle_lock(str(entry.cget("state")))))
     root.bind("<Command ,>", lambda a: show_prefs(entry,root))
-    #root.bind("<Command t>", lambda a: root.attributes("-alpha","0.6"))
     entry.place(relx=0.5, rely=0.5, anchor=CENTER)
     canvas.pack(expand=YES,fill=BOTH)
     entry.focus_set()
