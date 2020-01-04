@@ -34,15 +34,17 @@ def add_bullet(entry):
                 if isint(entry.get(str(float(x+1))+"+3chars",str(float(x+1))+" lineend")):
                     entry.delete(str(float(x+1))+"+3chars",str(float(x+1))+" lineend")
 
-def delete_aster(text):
+def delete_aster(text,entry):
     global bulletoraster
     bulletfound = "None"
+    print(text.split())
     if text.split()[0][0] == "*":
         bulletfound = "4.0 + 1 chars"
         bulletoraster = " • "
-    if text.split()[0][0] == "1" and text.split()[0][1] == ".":
+    if text.split()[0][0] == "1" and text.split()[0][1] == "." and len(text.split()) <= 1:
+        print('del')
         bulletfound = "4.0 + 1 chars"
-        bulletoraster = "1. "
+        bulletoraster = "1."
     return bulletfound
 
 def check_for_aster(text):
@@ -167,7 +169,7 @@ def main(self,color="#1d1f22"):
     root.bind("<Command b>", lambda a: entry.configure(font=(entry.cget("font").split()[0],int(entry.cget("font").split()[1]), toggle_bold(str(entry.cget("font").split()[2])),entry.cget("font").split()[3])))
     root.bind("<Command i>", lambda a: entry.configure(font=(entry.cget("font").split()[0],int(entry.cget("font").split()[1]), entry.cget("font").split()[2],toggle_italic(entry.cget("font").split()[3]))))
     root.bind("<Command f>", lambda a: entry.configure(font=(show_fonts(),int(entry.cget("font").split()[1]), entry.cget("font").split()[2],entry.cget("font").split()[3])))
-    root.bind("<space>", lambda a: [entry.tag_delete(check_for_aster(entry.get("2.0","2.0+3char"))),entry.delete("0.0",delete_aster(entry.get("0.0","end"))),entry.replace("0.0","0.0+1char",bulletoraster)])
+    root.bind("<space>", lambda a: [entry.tag_delete(check_for_aster(entry.get("2.0","2.0+3char"))),entry.delete("0.0",delete_aster(entry.get("0.0","end"),entry)),entry.replace("0.0","0.0+1char",bulletoraster)])
     root.bind("<Return>", lambda a: add_bullet(entry))
     root.bind("<Command l>", lambda a: entry.config(state=toggle_lock(str(entry.cget("state")))))
     root.bind("<Command ,>", lambda a: show_prefs(entry,root))
