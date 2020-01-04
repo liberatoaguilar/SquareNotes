@@ -28,7 +28,9 @@ Command-l: Toggle lock on note
 
 Command-,: Experimental Preferences
 
-Use: * yourtext to use bullet points
+Use: *  to use bullet points
+
+Use: 1. to start a numbered list (experimental)
 
 Notes can be resized
 
