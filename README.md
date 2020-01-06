@@ -32,6 +32,8 @@ Use: *  to use bullet points
 
 Use: 1. to start a numbered list (experimental)
 
+To use a checklist create a bulleted list, go to preferences and click convert to checklist
+
 Notes can be resized
 
 ### Extra Information

@@ -65,21 +65,24 @@ def set_alpha(num,root):
     alpha = num
     root.attributes("-alpha",str(num))
 
-def show_prefs(entry,root):
+def show_prefs(entry,root,checklist):
     global alpha
     prefsroot = tkinter.Tk()
     prefsroot.wm_title("Preferences")
-    prefscanvas = tkinter.Canvas(prefsroot, highlightthickness=0,bg="#1d1f22",height=300,width=440)
+    prefscanvas = tkinter.Canvas(prefsroot, highlightthickness=0,bg="#1d1f22",height=300,width=240)
     title = tkinter.Entry(prefscanvas,bd=0,bg="#cecece",highlightbackground="#cecece",highlightcolor="#cecece")
     titlelabel = tkinter.Label(prefscanvas,text="Set Title",bg="#1d1f22",fg="white")
     title.insert("end","SquareNotes")
-    titlebutton = tkinter.Button(prefscanvas,width=10,text="Set",bg="#1d1f22",fg="white",bd=0,highlightthickness=0,activebackground="#1d1f22",highlightbackground="#1d1f22",font=("Helvetica"),command=lambda : root.wm_title(title.get()))
+    titlebutton = tkinter.Button(prefscanvas,text="Set",bg="#1d1f22",fg="white",bd=0,highlightthickness=0,activebackground="#1d1f22",highlightbackground="#1d1f22",font=("Helvetica"),command=lambda : root.wm_title(title.get()))
     translucent_number = Scale(prefscanvas, from_=0.1, to=1.0, orient=HORIZONTAL, resolution=0.1, length=170, label="Translucency",bd=0,bg="#1d1f22",activebackground="#1d1f22",fg="white",command= lambda a: set_alpha(a,root))
     translucent_number.set(alpha)
+    convert_to_checklist = Button(prefscanvas,width=20,text="Convert to Checklist",bg="#1d1f22",fg="white",bd=0,highlightthickness=0,activebackground="#1d1f22",highlightbackground="#1d1f22",font=("Helvetica"),command=lambda : checklist_main(entry))
     prefscanvas.create_window(120,40,window=translucent_number)
     prefscanvas.create_window(70,120,window=titlelabel)
     prefscanvas.create_window(120,155,window=title)
     prefscanvas.create_window(120,195,window=titlebutton)
+    if checklist == "normal":
+        prefscanvas.create_window(120,240,window=convert_to_checklist)
     prefscanvas.pack()
     prefsroot.mainloop()
 
@@ -152,6 +155,41 @@ def change_color(entry):
     else:
         entry.config(foreground=color)
 
+def change_all_colors(canvas,bgfg):
+    color = change_bg_color()
+    for x in canvas.winfo_children():
+        if bgfg == "bg":
+            x.configure(bg=color)
+        elif bgfg == "fg":
+            x.configure(activeforeground=color)
+
+def checklist_main(entry,color="#1d1f22"):
+    if entry.get('0.0','0.0+2char') == " •":
+        text = entry.get('0.0','end')
+        text = text.replace('•',"").split("\n")
+        del text[-1]
+        for x in range(len(text)):
+            if text[-1] == '  ':
+                del text[-1]
+        print(text)
+
+        counter = 0
+        root = tkinter.Tk()
+        root.wm_title("Checklist")
+        canvas = tkinter.Canvas(root, highlightthickness=0,bg=entry.cget("bg"),height=200,width=200)
+        for x in text:
+            state = BooleanVar()
+            state.set(True)
+            check = Checkbutton(canvas, text=x, var=state,bg=entry.cget("bg"),font=(entry.cget("font").split()[0],20,entry.cget("font").split()[2],entry.cget("font").split()[3]))
+            check.place(x=20,y=10+(counter*27))
+            counter += 1
+        root.bind("<Command n>", main)
+        root.bind("<Command w>", root.destroy)
+        root.bind("<Command c>", lambda a: [change_all_colors(canvas,"bg"), canvas.configure(bg=check.cget("bg"))])
+        root.bind("<Command ,>", lambda a: show_prefs(entry,root,"checklist"))
+        canvas.pack(expand=YES,fill=BOTH)
+        root.mainloop()
+
 def main(self,color="#1d1f22"):
     root = tkinter.Tk()
     root.wm_title("SquareNotes")
@@ -172,7 +210,7 @@ def main(self,color="#1d1f22"):
     root.bind("<space>", lambda a: [entry.tag_delete(check_for_aster(entry.get("2.0","2.0+3char"))),entry.delete("0.0",delete_aster(entry.get("0.0","end"),entry)),entry.replace("0.0","0.0+1char",bulletoraster)])
     root.bind("<Return>", lambda a: add_bullet(entry))
     root.bind("<Command l>", lambda a: entry.config(state=toggle_lock(str(entry.cget("state")))))
-    root.bind("<Command ,>", lambda a: show_prefs(entry,root))
+    root.bind("<Command ,>", lambda a: show_prefs(entry,root,"normal"))
     entry.place(relx=0.5, rely=0.5, anchor=CENTER)
     canvas.pack(expand=YES,fill=BOTH)
     entry.focus_set()
