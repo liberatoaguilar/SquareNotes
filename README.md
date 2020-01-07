@@ -28,6 +28,8 @@ Command-l: Toggle lock on note
 
 Command-,: Experimental Preferences
 
+Control-c: Shortcut to toggle between checklist and note
+
 Use: *  to use bullet points
 
 Use: 1. to start a numbered list (experimental)

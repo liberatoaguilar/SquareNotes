@@ -187,16 +187,24 @@ def checklist_main(entry,color="#1d1f22"):
         root.bind("<Command w>", root.destroy)
         root.bind("<Command c>", lambda a: [change_all_colors(canvas,"bg"), canvas.configure(bg=check.cget("bg"))])
         root.bind("<Command ,>", lambda a: show_prefs(entry,root,"checklist"))
+        root.bind("<Control c>", lambda a: main(a, color=canvas.cget("bg"), withtext=canvas.winfo_children()))
         canvas.pack(expand=YES,fill=BOTH)
         root.mainloop()
 
-def main(self,color="#1d1f22"):
+def main(self,color="#1d1f22",withtext=None):
+    counter = 1.0
     root = tkinter.Tk()
     root.wm_title("SquareNotes")
     entry = tkinter.Text(root, width=16, height=8, font=("Helvetica",20,"normal", "roman"),fg="white",bg=color, highlightthickness=0,insertbackground="white",wrap="word",padx=20,pady=20)
-    entry.tag_configure("center", justify="center")
-    entry.insert("1.0","\n\n\n")
-    entry.tag_add("center","0.0","end")
+    if withtext == None:
+        entry.tag_configure("center", justify="center")
+        entry.insert("0.0","\n\n\n")
+        entry.tag_add("center","0.0","end")
+    else:
+        for x in withtext:
+            entry.insert(str(counter)," •"+x.cget("text")[1:]+"\n")
+            counter += 1.0
+        entry.delete(str(float(entry.index("end"))-1.0),"end")
     root.bind("<Command n>", main)
     root.bind("<Command w>", root.destroy)
     root.bind("<Command c>", lambda a: [entry.configure(bg=change_bg_color())])
@@ -210,6 +218,7 @@ def main(self,color="#1d1f22"):
     root.bind("<Return>", lambda a: add_bullet(entry))
     root.bind("<Command l>", lambda a: entry.config(state=toggle_lock(str(entry.cget("state")))))
     root.bind("<Command ,>", lambda a: show_prefs(entry,root,"normal"))
+    root.bind("<Control c>", lambda a: checklist_main(entry))
     entry.pack(expand=YES,fill=BOTH)
     entry.focus_set()
     root.mainloop()
