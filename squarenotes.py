@@ -163,7 +163,7 @@ def change_all_colors(canvas,bgfg):
         elif bgfg == "fg":
             x.configure(activeforeground=color)
 
-def checklist_main(entry,color="#1d1f22"):
+def checklist_main(entry,color="#1d1f22",title="Checklist"):
     if entry.get('0.0','0.0+2char') == " •":
         text = entry.get('0.0','end')
         text = text.replace('•',"").split("\n")
@@ -175,7 +175,7 @@ def checklist_main(entry,color="#1d1f22"):
 
         counter = 0
         root = tkinter.Tk()
-        root.wm_title("Checklist")
+        root.wm_title(title)
         canvas = tkinter.Canvas(root, highlightthickness=0,bg=entry.cget("bg"),height=200,width=200)
         for x in text:
             state = BooleanVar()
@@ -187,14 +187,14 @@ def checklist_main(entry,color="#1d1f22"):
         root.bind("<Command w>", root.destroy)
         root.bind("<Command c>", lambda a: [change_all_colors(canvas,"bg"), canvas.configure(bg=check.cget("bg"))])
         root.bind("<Command ,>", lambda a: show_prefs(entry,root,"checklist"))
-        root.bind("<Control c>", lambda a: main(a, color=canvas.cget("bg"), withtext=canvas.winfo_children()))
+        root.bind("<Control c>", lambda a: main(a, color=canvas.cget("bg"), withtext=canvas.winfo_children(), title=root.title()))
         canvas.pack(expand=YES,fill=BOTH)
         root.mainloop()
 
-def main(self,color="#1d1f22",withtext=None):
+def main(self,color="#1d1f22",withtext=None,title="SquareNotes"):
     counter = 1.0
     root = tkinter.Tk()
-    root.wm_title("SquareNotes")
+    root.wm_title(title)
     entry = tkinter.Text(root, width=16, height=8, font=("Helvetica",20,"normal", "roman"),fg="white",bg=color, highlightthickness=0,insertbackground="white",wrap="word",padx=20,pady=20)
     if withtext == None:
         entry.tag_configure("center", justify="center")
@@ -218,7 +218,7 @@ def main(self,color="#1d1f22",withtext=None):
     root.bind("<Return>", lambda a: add_bullet(entry))
     root.bind("<Command l>", lambda a: entry.config(state=toggle_lock(str(entry.cget("state")))))
     root.bind("<Command ,>", lambda a: show_prefs(entry,root,"normal"))
-    root.bind("<Control c>", lambda a: checklist_main(entry))
+    root.bind("<Control c>", lambda a: checklist_main(entry,title=root.title()))
     entry.pack(expand=YES,fill=BOTH)
     entry.focus_set()
     root.mainloop()
