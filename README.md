@@ -41,3 +41,11 @@ Notes can be resized
 ### Extra Information
 
 This was programmed in python using Tkinter (preinstalled with python)
+
+![image](https://raw.githubusercontent.com/liberatoaguilar/SquareNotes/master/Images/1.png)
+![image](https://raw.githubusercontent.com/liberatoaguilar/SquareNotes/master/Images/2.png)
+![image](https://raw.githubusercontent.com/liberatoaguilar/SquareNotes/master/Images/3.png)
+![image](https://raw.githubusercontent.com/liberatoaguilar/SquareNotes/master/Images/4.png)
+![image](https://raw.githubusercontent.com/liberatoaguilar/SquareNotes/master/Images/5.png)
+![image](https://raw.githubusercontent.com/liberatoaguilar/SquareNotes/master/Images/6.png)
+![image](https://raw.githubusercontent.com/liberatoaguilar/SquareNotes/master/Images/7.png)
