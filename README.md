@@ -1,5 +1,7 @@
 # SquareNotes
 
+- Created January 2020
+
 SquareNotes is a simple app that creates small windows that hold notes
 
 Simply begin typing on a note
